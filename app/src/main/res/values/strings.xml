@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BookShop</string>
+    <string name="customdialogtitle">Book Details</string>
+</resources>
