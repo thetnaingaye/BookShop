@@ -3,14 +3,21 @@ package iss.sa45.bookshop;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.util.List;
 
 public class MainActivity extends ListActivity {
@@ -59,8 +66,26 @@ public class MainActivity extends ListActivity {
         TextView textTitle = (TextView) d.findViewById(R.id.textTitle);
         textTitle.setText("Title :"+ item.get("title"));
 
+        ImageView img = (ImageView) d.findViewById(R.id.imgView);
+        String uri = "http://192.168.1.15/BookShop/images/"+item.get("isbn")+".jpg";
+
+        Bitmap bitmap = getImage(uri);
+        img.setImageBitmap(bitmap);
+
 
         d.show();
 
+    }
+
+    protected Bitmap getImage(String url) {
+
+        Bitmap bitmap = null;
+        try {
+            InputStream in = new java.net.URL(url).openStream();
+            bitmap = BitmapFactory.decodeStream(in);
+        } catch (Exception e) {
+            Log.e("MyApp", e.getMessage());
+        }
+        return bitmap;
     }
 }
