@@ -60,69 +60,73 @@ public class MainActivity extends ListActivity {
 
         BookItem item = (BookItem) getListAdapter().getItem(position);
 
-        final Dialog d = new Dialog(this);
-        d.setTitle(getString(R.string.customdialogtitle));
-        d.setContentView(R.layout.customedialog);
-        d.setCancelable(true);
-        TextView textAuthor = (TextView) d.findViewById(R.id.textAuthor);
-        textAuthor.setText("Author :"+ item.get("author"));
+        Intent intent = new Intent(this,DetailsActivity.class);
+        intent.putExtra("item",item);
+        startActivity(intent);
 
-        TextView textBookID = (TextView) d.findViewById(R.id.textBookID);
-        textBookID.setText("BookID :"+ item.get("bookId"));
-
-        TextView textCatID = (TextView) d.findViewById(R.id.textCatID);
-        textCatID.setText("CategoryID :"+ item.get("catId"));
-
-
-        TextView textISBN = (TextView) d.findViewById(R.id.textISBN);
-        textISBN.setText("ISBN :"+ item.get("isbn"));
-
-        TextView textPrice = (TextView) d.findViewById(R.id.textPrice);
-        textPrice.setText("Price :"+ item.get("price"));
-
-
-        TextView textStock = (TextView) d.findViewById(R.id.textStock);
-        textStock.setText("Stock :"+ item.get("stock"));
-
-        TextView textTitle = (TextView) d.findViewById(R.id.textTitle);
-        textTitle.setText("Title :"+ item.get("title"));
-
-        //ImageView img = (ImageView) d.findViewById(R.id.imgView);
-        String uri = BookItem.URI_BOOKIMAGE+item.get("isbn")+".jpg";
-
-        new AsyncTask<String, Void, Bitmap>() {
-            @Override
-            protected Bitmap doInBackground(String... params) {
-
-                return getImage(params[0]);
-            }
-
-            @Override
-            protected void onPostExecute(Bitmap resultImg){
-                ImageView img = (ImageView) d.findViewById(R.id.imgView);
-                img.setImageBitmap(resultImg);
-            }
-
-            protected Bitmap getImage(String url) {
-
-                Bitmap bitmap = null;
-                try {
-                    InputStream in = new java.net.URL(url).openStream();
-                    bitmap = BitmapFactory.decodeStream(in);
-                } catch (Exception e) {
-                    Log.e("MyApp", e.getMessage());
-                }
-                return bitmap;
-            }
-
-        }.execute(uri);
-
-
-//        Bitmap bitmap = getImage(uri);
-//        img.setImageBitmap(bitmap);
-
-
-        d.show();
+//        final Dialog d = new Dialog(this);
+//        d.setTitle(getString(R.string.customdialogtitle));
+//        d.setContentView(R.layout.customedialog);
+//        d.setCancelable(true);
+//        TextView textAuthor = (TextView) d.findViewById(R.id.textAuthor);
+//        textAuthor.setText("Author :"+ item.get("author"));
+//
+//        TextView textBookID = (TextView) d.findViewById(R.id.textBookID);
+//        textBookID.setText("BookID :"+ item.get("bookId"));
+//
+//        TextView textCatID = (TextView) d.findViewById(R.id.textCatID);
+//        textCatID.setText("CategoryID :"+ item.get("catId"));
+//
+//
+//        TextView textISBN = (TextView) d.findViewById(R.id.textISBN);
+//        textISBN.setText("ISBN :"+ item.get("isbn"));
+//
+//        TextView textPrice = (TextView) d.findViewById(R.id.textPrice);
+//        textPrice.setText("Price :"+ item.get("price"));
+//
+//
+//        TextView textStock = (TextView) d.findViewById(R.id.textStock);
+//        textStock.setText("Stock :"+ item.get("stock"));
+//
+//        TextView textTitle = (TextView) d.findViewById(R.id.textTitle);
+//        textTitle.setText("Title :"+ item.get("title"));
+//
+//        //ImageView img = (ImageView) d.findViewById(R.id.imgView);
+//        String uri = BookItem.URI_BOOKIMAGE+item.get("isbn")+".jpg";
+//
+//        new AsyncTask<String, Void, Bitmap>() {
+//            @Override
+//            protected Bitmap doInBackground(String... params) {
+//
+//                return getImage(params[0]);
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Bitmap resultImg){
+//                ImageView img = (ImageView) d.findViewById(R.id.imgView);
+//                img.setImageBitmap(resultImg);
+//            }
+//
+//            protected Bitmap getImage(String url) {
+//
+//                Bitmap bitmap = null;
+//                try {
+//                    InputStream in = new java.net.URL(url).openStream();
+//                    bitmap = BitmapFactory.decodeStream(in);
+//                } catch (Exception e) {
+//                    Log.e("MyApp", e.getMessage());
+//                }
+//                return bitmap;
+//            }
+//
+//        }.execute(uri);
+//
+//
+////        Bitmap bitmap = getImage(uri);
+////        img.setImageBitmap(bitmap);
+//
+//
+//        d.show();
 
     }
 
