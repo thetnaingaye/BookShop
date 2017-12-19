@@ -69,7 +69,7 @@ public class MainActivity extends ListActivity {
         textTitle.setText("Title :"+ item.get("title"));
 
         ImageView img = (ImageView) d.findViewById(R.id.imgView);
-        String uri = "http://172.17.248.45/BookShop/images/"+item.get("isbn")+".jpg";
+        String uri = BookItem.URI_BOOKIMAGE+item.get("isbn")+".jpg";
 
         Bitmap bitmap = getImage(uri);
         img.setImageBitmap(bitmap);

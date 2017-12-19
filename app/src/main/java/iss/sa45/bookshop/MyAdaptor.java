@@ -46,7 +46,7 @@ public class MyAdaptor extends ArrayAdapter<BookItem> {
 
             ImageView image = (ImageView) v.findViewById(R.id.imgView);
 
-            String uri = "http://172.17.248.45/BookShop/images/"+book.get("isbn")+".jpg";
+            String uri = BookItem.URI_BOOKIMAGE+book.get("isbn")+".jpg";
 
             Bitmap bitmap = getImage(uri);
             image.setImageBitmap(bitmap);
