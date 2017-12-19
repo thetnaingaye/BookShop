@@ -28,8 +28,10 @@ public class MainActivity extends ListActivity {
         StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.LAX);
         List<BookItem> books = BookItem.jread();
 
-        SimpleAdapter adapter = new SimpleAdapter(this, books, R.layout.row2, new String[]{"title", "isbn"}, new int[]{R.id.text1, R.id.text2});
-        setListAdapter(adapter);
+        //SimpleAdapter adapter = new SimpleAdapter(this, books, R.layout.row2, new String[]{"title", "isbn"}, new int[]{R.id.text1, R.id.text2});
+        //setListAdapter(adapter);
+
+        setListAdapter(new MyAdaptor(this, R.layout.row3, books));
 
     }
 
