@@ -29,7 +29,7 @@ public class BookItem  extends HashMap<String,String>{
 
     public static List<BookItem> jread() {
         List<BookItem> list = new ArrayList<BookItem>();
-        JSONArray a = JSONParser.getJSONArrayFromUrl("http://192.168.1.15/BookShop/Service.svc/Books");
+        JSONArray a = JSONParser.getJSONArrayFromUrl("http://172.17.248.45/BookShop/Service.svc/Books");
         try {
             for (int i =0; i<a.length(); i++) {
                 JSONObject b = a.getJSONObject(i);
