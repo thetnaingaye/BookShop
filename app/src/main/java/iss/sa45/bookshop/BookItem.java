@@ -30,9 +30,9 @@ public class BookItem  extends HashMap<String,String>{
 
     }
 
-    public static List<BookItem> jread() {
+    public static List<BookItem> jread(String url) {
         List<BookItem> list = new ArrayList<BookItem>();
-        JSONArray a = JSONParser.getJSONArrayFromUrl(URI_SERVICE);
+        JSONArray a = JSONParser.getJSONArrayFromUrl(url);
         try {
             for (int i =0; i<a.length(); i++) {
                 JSONObject b = a.getJSONObject(i);

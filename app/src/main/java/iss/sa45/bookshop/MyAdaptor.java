@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,8 +36,10 @@ public class MyAdaptor extends ArrayAdapter<BookItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) getContext()
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(resource, null);
+        final View v = inflater.inflate(resource, null);
+
         BookItem book = items.get(position);
+
         if (book != null) {
             TextView bTitle = (TextView) v.findViewById(R.id.textView1);
             bTitle.setText(book.get("title"));
@@ -44,26 +47,53 @@ public class MyAdaptor extends ArrayAdapter<BookItem> {
             TextView bIsbn = (TextView) v.findViewById(R.id.textView2);
             bIsbn.setText((book.get("isbn")));
 
-            ImageView image = (ImageView) v.findViewById(R.id.imgView);
+            final ImageView image = (ImageView) v.findViewById(R.id.imgView);
 
             String uri = BookItem.URI_BOOKIMAGE+book.get("isbn")+".jpg";
 
-            Bitmap bitmap = getImage(uri);
-            image.setImageBitmap(bitmap);
+            new AsyncTask<String, Void, Bitmap>() {
+                @Override
+                protected Bitmap doInBackground(String... params) {
+
+                    return getImage(params[0]);
+                }
+
+                @Override
+                protected void onPostExecute(Bitmap resultImg){
+                    image.setImageBitmap(resultImg);
+                }
+
+
+                protected Bitmap getImage(String url) {
+
+                    Bitmap bitmap = null;
+                    try {
+                        InputStream in = new java.net.URL(url).openStream();
+                        bitmap = BitmapFactory.decodeStream(in);
+                    } catch (Exception e) {
+                        Log.e("MyApp", e.getMessage());
+                    }
+                    return bitmap;
+                }
+
+            }.execute(uri);
+
+//            Bitmap bitmap = getImage(uri);
+//            image.setImageBitmap(bitmap);
 
         }
         return v;
     }
 
-    protected Bitmap getImage(String url) {
-
-        Bitmap bitmap = null;
-        try {
-            InputStream in = new java.net.URL(url).openStream();
-            bitmap = BitmapFactory.decodeStream(in);
-        } catch (Exception e) {
-            Log.e("MyApp", e.getMessage());
-        }
-        return bitmap;
-    }
+//    protected Bitmap getImage(String url) {
+//
+//        Bitmap bitmap = null;
+//        try {
+//            InputStream in = new java.net.URL(url).openStream();
+//            bitmap = BitmapFactory.decodeStream(in);
+//        } catch (Exception e) {
+//            Log.e("MyApp", e.getMessage());
+//        }
+//        return bitmap;
+//    }
 }

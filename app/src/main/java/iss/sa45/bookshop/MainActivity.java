@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -25,13 +26,30 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.LAX);
-        List<BookItem> books = BookItem.jread();
+       // StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.LAX);
+
+        new AsyncTask<String,Void,List<BookItem>>(){
+
+            @Override
+            protected List<BookItem> doInBackground(String... params) {
+
+                return BookItem.jread(params[0]);
+            }
+
+            @Override
+            protected  void onPostExecute(List<BookItem> resultBookList){
+                setListAdapter(new MyAdaptor(MainActivity.this,R.layout.row3,resultBookList ));
+            }
+
+
+        }.execute(BookItem.URI_SERVICE);
+
+        //List<BookItem> books = BookItem.jread(BookItem.URI_SERVICE);
 
         //SimpleAdapter adapter = new SimpleAdapter(this, books, R.layout.row2, new String[]{"title", "isbn"}, new int[]{R.id.text1, R.id.text2});
         //setListAdapter(adapter);
 
-        setListAdapter(new MyAdaptor(this, R.layout.row3, books));
+        //setListAdapter(new MyAdaptor(this, R.layout.row3, books));
 
     }
 
@@ -39,6 +57,7 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v,
                                    int position, long id) {
+
         BookItem item = (BookItem) getListAdapter().getItem(position);
 
         final Dialog d = new Dialog(this);
@@ -68,26 +87,44 @@ public class MainActivity extends ListActivity {
         TextView textTitle = (TextView) d.findViewById(R.id.textTitle);
         textTitle.setText("Title :"+ item.get("title"));
 
-        ImageView img = (ImageView) d.findViewById(R.id.imgView);
+        //ImageView img = (ImageView) d.findViewById(R.id.imgView);
         String uri = BookItem.URI_BOOKIMAGE+item.get("isbn")+".jpg";
 
-        Bitmap bitmap = getImage(uri);
-        img.setImageBitmap(bitmap);
+        new AsyncTask<String, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(String... params) {
+
+                return getImage(params[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap resultImg){
+                ImageView img = (ImageView) d.findViewById(R.id.imgView);
+                img.setImageBitmap(resultImg);
+            }
+
+            protected Bitmap getImage(String url) {
+
+                Bitmap bitmap = null;
+                try {
+                    InputStream in = new java.net.URL(url).openStream();
+                    bitmap = BitmapFactory.decodeStream(in);
+                } catch (Exception e) {
+                    Log.e("MyApp", e.getMessage());
+                }
+                return bitmap;
+            }
+
+        }.execute(uri);
+
+
+//        Bitmap bitmap = getImage(uri);
+//        img.setImageBitmap(bitmap);
 
 
         d.show();
 
     }
 
-    protected Bitmap getImage(String url) {
 
-        Bitmap bitmap = null;
-        try {
-            InputStream in = new java.net.URL(url).openStream();
-            bitmap = BitmapFactory.decodeStream(in);
-        } catch (Exception e) {
-            Log.e("MyApp", e.getMessage());
-        }
-        return bitmap;
-    }
 }
