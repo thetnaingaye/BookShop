@@ -58,18 +58,15 @@ public class ListingFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         BookItem s = (BookItem) getListAdapter().getItem(position);
+
+        if (getActivity().findViewById(R.id.detailsframe) == null) {
+            // single-pane
             Intent intent = new Intent(getActivity(), DetailsActivity.class);
             intent.putExtra("details", s);
             startActivity(intent);
-
-//        if (getActivity().findViewById(R.id.detailsframe) == null) {
-//            // single-pane
-//            Intent intent = new Intent(getActivity(), DetailsActivity.class);
-//            intent.putExtra("details", s);
-//            startActivity(intent);
-//        } else
-//            // multi-pane
-//        display(s);
+        } else
+            // multi-pane
+        display(s);
     }
 
     void display(BookItem details) {
@@ -83,10 +80,10 @@ public class ListingFragment extends ListFragment {
         frag.setArguments(args);
         if (fm.findFragmentByTag(TAG) == null)
             // fragment not found -- to be added
-            trans.add(R.id.detailsframe2, frag, TAG);
+            trans.add(R.id.detailsframe, frag, TAG);
         else
             // fragment found -- to be replaced
-            trans.replace(R.id.detailsframe2, frag, TAG);
+            trans.replace(R.id.detailsframe, frag, TAG);
         trans.commit();
     }
 }
