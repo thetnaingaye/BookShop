@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,14 +34,35 @@ public class ListingFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.list, container, false);
+        String cat = "";
+        Bundle arg = getArguments();
+        if (arg != null) {
+            cat = arg.getString("categoryId");
 
+        }
 
-        new AsyncTask<String,Void,List<BookItem>>(){
+        new  AsyncTask<String,Void,List<BookItem>>(){
 
             @Override
             protected List<BookItem> doInBackground(String... params) {
 
-                return BookItem.jread(params[0]);
+                //eturn BookItem.jread(params[0]);
+                if(params[1].isEmpty()){
+                    return BookItem.jread(params[0]);
+                }else{
+                    List<BookItem> temp = BookItem.jread(params[0]);
+                    List<BookItem> bookListByCat = new ArrayList<BookItem>();
+                    for(BookItem b:temp)
+                    {
+                        if(b.get("catId").equals(params[1]))
+                        {
+                            bookListByCat.add(b);
+                        }
+                    }
+                    return bookListByCat;
+                }
+
+
             }
 
             @Override
@@ -48,7 +71,7 @@ public class ListingFragment extends ListFragment {
             }
 
 
-        }.execute(BookItem.URI_SERVICE);
+        }.execute(BookItem.URI_SERVICE,cat);
 
 
 
@@ -66,6 +89,8 @@ public class ListingFragment extends ListFragment {
         startActivity(intent);
     } else
     // multi-pane
+
+
         display(s);
     }
 
