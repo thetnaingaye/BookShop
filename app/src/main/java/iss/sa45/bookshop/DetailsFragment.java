@@ -70,7 +70,7 @@ public class DetailsFragment extends Fragment {
                     @Override
                     protected void onPostExecute(Bitmap resultImg){
                         ImageView img = (ImageView) v.findViewById(R.id.imgView);
-                        img.setImageBitmap(resultImg);
+                        img.setImageBitmap(resize(resultImg,2.5));
                     }
 
                     protected Bitmap getImage(String url) {
@@ -83,6 +83,15 @@ public class DetailsFragment extends Fragment {
                             Log.e("MyApp", e.getMessage());
                         }
                         return bitmap;
+                    }
+
+                    protected Bitmap resize(Bitmap bitmap, double size) {
+
+                            Bitmap b = Bitmap.createScaledBitmap(bitmap,
+                                    (int) (bitmap.getWidth() * size),
+                                    (int) (bitmap.getHeight() * size), false);
+                            bitmap = b;
+                            return bitmap;
                     }
 
                 }.execute(uri);
