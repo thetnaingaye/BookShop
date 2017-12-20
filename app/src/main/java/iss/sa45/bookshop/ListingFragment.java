@@ -62,10 +62,10 @@ public class ListingFragment extends ListFragment {
         if (getActivity().findViewById(R.id.detailsframe) == null) {
             // single-pane
             Intent intent = new Intent(getActivity(), DetailsActivity.class);
-            intent.putExtra("details", s);
-            startActivity(intent);
-        } else
-            // multi-pane
+        intent.putExtra("details", s);
+        startActivity(intent);
+    } else
+    // multi-pane
         display(s);
     }
 

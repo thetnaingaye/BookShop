@@ -1,6 +1,7 @@
 package iss.sa45.bookshop;
 
 import android.app.Fragment;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -34,8 +35,13 @@ public class DetailsFragment extends Fragment {
                 TextView textBookID = (TextView) v.findViewById(R.id.textBookID);
                 textBookID.setText("BookID :"+ item.get("bookId"));
 
+                Resources res = getResources();
+                String[] catArray = res.getStringArray(R.array.category);
+                int catIndex = (Integer.parseInt(item.get("catId")) -1 );
+
+
                 TextView textCatID = (TextView) v.findViewById(R.id.textCatID);
-                textCatID.setText("CategoryID :"+ item.get("catId"));
+                textCatID.setText("Category :"+ catArray[catIndex]);
 
 
                 TextView textISBN = (TextView) v.findViewById(R.id.textISBN);
