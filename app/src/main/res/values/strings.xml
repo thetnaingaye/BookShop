@@ -9,9 +9,11 @@
     <string name="btnFind">OK</string>
 
     <string-array name="category">
+        <item>All</item>
         <item>children</item>
         <item>finance</item>
         <item>non-fiction</item>
         <item>technical</item>
+
     </string-array>
 </resources>

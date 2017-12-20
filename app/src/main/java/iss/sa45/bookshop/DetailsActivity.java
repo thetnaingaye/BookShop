@@ -68,8 +68,12 @@ public class DetailsActivity extends Activity {
 
                         Resources res = getResources();
                         String[] va = res.getStringArray(R.array.category);
+                        String catIndex ="";
+                        if(index != 0) {
+                            catIndex = "" + (index);
+                        }
 
-                        String catIndex = ""+(index+1);
+
 
                         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                         intent.putExtra("categoryId" , catIndex);

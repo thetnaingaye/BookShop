@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -61,8 +62,6 @@ public class MainActivity extends Activity {
 
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -89,8 +88,12 @@ public class MainActivity extends Activity {
 
                         Resources res = getResources();
                         String[] va = res.getStringArray(R.array.category);
+                        String catIndex ="";
+                        if(index != 0) {
+                            catIndex = "" + (index);
+                        }
 
-                        String catIndex = ""+(index+1);
+
 
                         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                         intent.putExtra("categoryId" , catIndex);

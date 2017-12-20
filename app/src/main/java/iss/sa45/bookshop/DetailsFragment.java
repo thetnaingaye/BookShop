@@ -37,7 +37,7 @@ public class DetailsFragment extends Fragment {
 
                 Resources res = getResources();
                 String[] catArray = res.getStringArray(R.array.category);
-                int catIndex = (Integer.parseInt(item.get("catId")) -1 );
+                int catIndex = (Integer.parseInt(item.get("catId")) );
 
 
                 TextView textCatID = (TextView) v.findViewById(R.id.textCatID);
