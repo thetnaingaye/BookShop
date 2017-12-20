@@ -28,54 +28,59 @@ public class ListingFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.list, container, false);
-        String cat = "";
-        Bundle arg = getArguments();
-        if (arg != null) {
-            cat = arg.getString("categoryId");
 
-        }
+        if(savedInstanceState == null)
+        {
+            String cat = "";
+            Bundle arg = getArguments();
+            if (arg != null) {
+                cat = arg.getString("categoryId");
 
-        new  AsyncTask<String,Void,List<BookItem>>(){
+            }
 
-            @Override
-            protected List<BookItem> doInBackground(String... params) {
+            new  AsyncTask<String,Void,List<BookItem>>(){
 
-                //eturn BookItem.jread(params[0]);
-                if(params[1].isEmpty()){
-                    return BookItem.jread(params[0]);
-                }else{
-                    List<BookItem> temp = BookItem.jread(params[0]);
-                    List<BookItem> bookListByCat = new ArrayList<BookItem>();
-                    for(BookItem b:temp)
-                    {
-                        if(b.get("catId").equals(params[1]))
+                @Override
+                protected List<BookItem> doInBackground(String... params) {
+
+                    //eturn BookItem.jread(params[0]);
+                    if(params[1].isEmpty()){
+                        return BookItem.jread(params[0]);
+                    }else{
+                        List<BookItem> temp = BookItem.jread(params[0]);
+                        List<BookItem> bookListByCat = new ArrayList<BookItem>();
+                        for(BookItem b:temp)
                         {
-                            bookListByCat.add(b);
+                            if(b.get("catId").equals(params[1]))
+                            {
+                                bookListByCat.add(b);
+                            }
                         }
+                        return bookListByCat;
                     }
-                    return bookListByCat;
+
+
+                }
+
+                @Override
+                protected  void onPostExecute(List<BookItem> resultBookList){
+                    setListAdapter(new MyAdaptor(getActivity(),R.layout.row3,resultBookList ));
                 }
 
 
-            }
-
-            @Override
-            protected  void onPostExecute(List<BookItem> resultBookList){
-                setListAdapter(new MyAdaptor(getActivity(),R.layout.row3,resultBookList ));
-            }
+            }.execute(BookItem.URI_SERVICE,cat);
 
 
-        }.execute(BookItem.URI_SERVICE,cat);
-
-
+        }
 
         return(v);
     }

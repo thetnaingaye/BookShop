@@ -6,6 +6,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="option1">Filtered by Category</string>
+    <string name="option2">Find by QR code</string>
     <string name="btnFind">OK</string>
 
     <string-array name="category">
