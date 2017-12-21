@@ -18,7 +18,7 @@ public class BookItem  extends HashMap<String,String>{
     public static final String URI_SERVICE = "http://172.17.248.45/BookShop/Service.svc/Books";
     public static final String URI_BOOKIMAGE = "http://172.17.248.45/BookShop/images/";
 
-    public static final String searchURL = "http://172.17.253.34/BookShop/service.svc/search?client=";
+    public static final String searchURL = "http://172.17.248.45/BookShop/service.svc/search?client=";
 
     public BookItem(String author,String bookId, String catId, String isbn,String price,String stock,String title)
     {
@@ -63,7 +63,7 @@ public class BookItem  extends HashMap<String,String>{
                         b.getString("Title")));
             }
         } catch (Exception e) {
-            Log.e("BookItem", "JSONArray error");
+            Log.e("BookItem", "\n\nWHAT THE HELLL\n\n");
         }
 
 

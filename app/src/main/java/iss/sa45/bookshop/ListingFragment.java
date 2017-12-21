@@ -49,44 +49,60 @@ public class ListingFragment extends ListFragment {
             }
 
 
+            if (sQuery == null || sQuery.isEmpty())
+            {
+                new AsyncTask<String, Void, List<BookItem>>() {
 
+                    @Override
+                    protected List<BookItem> doInBackground(String... params) {
 
-            new AsyncTask<String, Void, List<BookItem>>() {
+                        //return BookItem.jread(params[0]);
 
+                        if (params[1].isEmpty()) {
+                            return BookItem.jread(params[0]);
+                            // return BookItem.jSearch(params[2]);
+                        } else {
 
-
-                @Override
-                protected List<BookItem> doInBackground(String... params) {
-
-                    //return BookItem.jread(params[0]);
-
-                    if (params[1].isEmpty() && params[2].isEmpty()) {
-                        return BookItem.jread(params[0]);
-                        // return BookItem.jSearch(params[2]);
-                    } else {
-
-                        List<BookItem> temp = BookItem.jread(params[0]);
-                        List<BookItem> bookListByCat = new ArrayList<BookItem>();
-                        for (BookItem b : temp) {
-                            if (b.get("catId").equals(params[1])) {
-                                bookListByCat.add(b);
+                            List<BookItem> temp = BookItem.jread(params[0]);
+                            List<BookItem> bookListByCat = new ArrayList<BookItem>();
+                            for (BookItem b : temp) {
+                                if (b.get("catId").equals(params[1])) {
+                                    bookListByCat.add(b);
+                                }
                             }
+                            return bookListByCat;
                         }
-                        return bookListByCat;
+                    }
 
+                    @Override
+                    protected void onPostExecute(List<BookItem> resultBookList) {
+                        setListAdapter(new MyAdaptor(getActivity(), R.layout.row3, resultBookList));
                     }
 
 
+                }.execute(BookItem.URI_SERVICE, cat,sQuery);
+            }
+            else
+            {
+                final String newString = arg.getString("sQuery");
 
-                }
+                new AsyncTask<String,Void,List<BookItem>>(){
 
-                @Override
-                protected void onPostExecute(List<BookItem> resultBookList) {
-                    setListAdapter(new MyAdaptor(getActivity(), R.layout.row3, resultBookList));
-                }
+                    @Override
+                    protected List<BookItem> doInBackground(String... params) {
+
+                        return BookItem.jSearch(newString);
+                    }
+
+                    @Override
+                    protected  void onPostExecute(List<BookItem> resultBookList){
+                        setListAdapter(new MyAdaptor(getActivity(),R.layout.row3,resultBookList ));
+                    }
 
 
-            }.execute(BookItem.URI_SERVICE, cat,sQuery);
+                }.execute();
+            }
+
 
 
         }
