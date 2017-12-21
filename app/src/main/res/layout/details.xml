@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Title"
+                android:text="@string/label_title"
                 android:textSize="16sp"/>
         </TableRow>
 
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Author" />
+                android:text="@string/label_author" />
         </TableRow>
 
         <TableRow>
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="BookId"
+                android:text="@string/label_bookID"
                 android:textSize="14sp" />
         </TableRow>
 
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="CategoryId"
+                android:text="@string/label_categoryID"
                 android:textSize="14sp" />
         </TableRow>
 
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="ISBN"
+                android:text="@string/label_isbn"
                 android:textSize="14sp" />
         </TableRow>
 
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="price"
+                android:text="@string/label_price"
                 android:textSize="14sp" />
         </TableRow>
 
@@ -100,10 +100,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Stock"
+                android:text="@string/label_stock"
                 android:textSize="14sp" />
         </TableRow>
 
+
+
+        <TableRow>
+            <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btnUpdate" />
+        </TableRow>
 
 
     </TableLayout>

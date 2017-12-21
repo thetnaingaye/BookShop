@@ -3,6 +3,7 @@ package iss.sa45.bookshop;
 import android.util.Log;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -19,6 +20,10 @@ public class BookItem  extends HashMap<String,String>{
     public static final String URI_BOOKIMAGE = "http://172.17.248.45/BookShop/images/";
 
     public static final String searchURL = "http://172.17.248.45/BookShop/service.svc/search?client=";
+
+    public BookItem(){
+        //nothing here
+    }
 
     public BookItem(String author,String bookId, String catId, String isbn,String price,String stock,String title)
     {
@@ -69,4 +74,36 @@ public class BookItem  extends HashMap<String,String>{
 
         return(list);
     }
+
+    //Chang Siang here
+    public static BookItem jGetBookItem(String url){
+        BookItem bookItem = new BookItem();
+        JSONObject a = JSONParser.getJSONFromUrl(url);
+        try {
+            bookItem = new BookItem(a.getString("Author"), a.getString("BookID"),
+                    a.getString("CategoryID"),a.getString("ISBN"),a.getString("Price"),a.getString("Stock"),a.getString("Title"));
+        } catch (Exception e) {
+            Log.e("BookItem", "JSONArray error");
+        }
+        return(bookItem);
+    }
+
+
+    public static void updateBookItem(BookItem bookItem){
+        JSONObject jbookItem = new JSONObject();
+        try {
+            jbookItem.put("BookID", bookItem.get("bookId"));
+            jbookItem.put("Author", bookItem.get("author"));
+            jbookItem.put("CategoryID", bookItem.get("catId"));
+            jbookItem.put("ISBN", bookItem.get("isbn"));
+            jbookItem.put("Price", bookItem.get("price"));
+            jbookItem.put("Stock", bookItem.get("stock"));
+            jbookItem.put("Title", bookItem.get("title"));
+        }
+        catch (JSONException e) {
+            Log.e("JSONException on Update", e.getStackTrace().toString());
+        }
+        String result = JSONParser.postStream(URI_SERVICE+"/Update", jbookItem.toString());
+    }
+
 }

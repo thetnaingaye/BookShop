@@ -1,6 +1,8 @@
 package iss.sa45.bookshop;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,7 +30,7 @@ public class DetailsFragment extends Fragment {
         final View v = inflater.inflate(R.layout.details, container, false);
         Bundle arg = getArguments();
         if (arg != null) {
-            HashMap<String,String> item = (HashMap<String,String>) arg.getSerializable("item");
+            final HashMap<String,String> item = (HashMap<String,String>) arg.getSerializable("item");
             if (item != null) {
                 TextView textAuthor = (TextView) v.findViewById(R.id.textAuthor);
                 textAuthor.setText("Author :"+ item.get("author"));
@@ -96,6 +99,29 @@ public class DetailsFragment extends Fragment {
 
                 }.execute(uri);
 
+                //changsiang and jane start writing here
+
+                Button btnUpdate = (Button) v.findViewById(R.id.btnUpdate);
+                btnUpdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String TAG = "DETAILS_FRAG";
+                        FragmentManager fm = getFragmentManager();
+                        FragmentTransaction trans = fm.beginTransaction();
+                        Bundle args = new Bundle();
+                        args.putSerializable("item", item);
+                        Fragment f = new UpdateFragment();
+                        f.setArguments(args);
+                        if (fm.findFragmentByTag(TAG) == null)
+                            // fragment not found -- to be added //portriat
+                            trans.replace(R.id.detailsframe2, f, TAG);
+                        else
+                            // fragment found -- to be replaced
+                            trans.replace(R.id.detailsframe, f, TAG);
+                        trans.commit();
+                    }
+                });
+                //changsiang and jane end writing here
 
 
             }

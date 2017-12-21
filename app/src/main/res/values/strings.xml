@@ -18,4 +18,15 @@
         <item>technical</item>
 
     </string-array>
+
+    <string name="label_author">Author</string>
+    <string name="label_title">Title</string>
+    <string name="label_bookID">Book ID</string>
+    <string name="label_isbn">ISBN</string>
+    <string name="label_categoryID">Category ID</string>
+    <string name="label_price">Price</string>
+    <string name="label_stock">Stock</string>
+    <string name="btnSave">Save</string>
+    <string name="btnCancel">Cancel</string>
+    <string name="btnUpdate">Update</string>
 </resources>
