@@ -14,4 +14,10 @@
         android:title="@string/option2" />
 
 
+    <!-- Search function in-built into our menu -->
+    <item android:id="@+id/searchInput"
+        android:title="@string/search_title"
+        android:showAsAction="collapseActionView|ifRoom"
+        android:actionViewClass="android.widget.SearchView" />
+
 </menu>

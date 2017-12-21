@@ -8,6 +8,7 @@
     <string name="option1">Filtered by Category</string>
     <string name="option2">Find by QR code</string>
     <string name="btnFind">OK</string>
+    <string name="search_title">Search...</string>
 
     <string-array name="category">
         <item>All</item>

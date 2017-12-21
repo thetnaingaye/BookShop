@@ -38,51 +38,60 @@ public class ListingFragment extends ListFragment {
 
         View v = inflater.inflate(R.layout.list, container, false);
 
-        if(savedInstanceState == null)
-        {
+        if (savedInstanceState == null) {
             String cat = "";
+            String sQuery = "";
             Bundle arg = getArguments();
             if (arg != null) {
                 cat = arg.getString("categoryId");
+                sQuery = arg.getString("sQuery");
 
             }
 
-            new  AsyncTask<String,Void,List<BookItem>>(){
+
+
+
+            new AsyncTask<String, Void, List<BookItem>>() {
+
+
 
                 @Override
                 protected List<BookItem> doInBackground(String... params) {
 
-                    //eturn BookItem.jread(params[0]);
-                    if(params[1].isEmpty()){
+                    //return BookItem.jread(params[0]);
+
+                    if (params[1].isEmpty() && params[2].isEmpty()) {
                         return BookItem.jread(params[0]);
-                    }else{
+                        // return BookItem.jSearch(params[2]);
+                    } else {
+
                         List<BookItem> temp = BookItem.jread(params[0]);
                         List<BookItem> bookListByCat = new ArrayList<BookItem>();
-                        for(BookItem b:temp)
-                        {
-                            if(b.get("catId").equals(params[1]))
-                            {
+                        for (BookItem b : temp) {
+                            if (b.get("catId").equals(params[1])) {
                                 bookListByCat.add(b);
                             }
                         }
                         return bookListByCat;
+
                     }
+
 
 
                 }
 
                 @Override
-                protected  void onPostExecute(List<BookItem> resultBookList){
-                    setListAdapter(new MyAdaptor(getActivity(),R.layout.row3,resultBookList ));
+                protected void onPostExecute(List<BookItem> resultBookList) {
+                    setListAdapter(new MyAdaptor(getActivity(), R.layout.row3, resultBookList));
                 }
 
 
-            }.execute(BookItem.URI_SERVICE,cat);
+            }.execute(BookItem.URI_SERVICE, cat,sQuery);
 
 
         }
 
-        return(v);
+        return (v);
     }
 
     @Override
@@ -92,13 +101,13 @@ public class ListingFragment extends ListFragment {
         if (getActivity().findViewById(R.id.detailsframe) == null) {
             // single-pane
             Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra("details", s);
-        startActivity(intent);
-    } else
-    // multi-pane
+            intent.putExtra("details", s);
+            startActivity(intent);
+        } else
+            // multi-pane
 
 
-        display(s);
+            display(s);
     }
 
     void display(BookItem details) {
