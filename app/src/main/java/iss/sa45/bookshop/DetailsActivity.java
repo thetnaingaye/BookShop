@@ -28,6 +28,8 @@ import java.util.HashMap;
 
 public class DetailsActivity extends Activity {
 
+    final static int CAPTURE_QRCODE = 888;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,9 +144,50 @@ public class DetailsActivity extends Activity {
                 d.show();
                 return true;
 
+            case R.id.option2:   // QR Code
+
+                Intent intent = new Intent("la.droid.qr.scan");
+                intent.putExtra("la.droid.qr.complete", true);
+                try {
+                    startActivityForResult(intent, CAPTURE_QRCODE);
+
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=la.droid.qr.priva")));
+                }
+
+
+
+                return true;
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CAPTURE_QRCODE) {
+            if (resultCode == RESULT_OK) {
+                if (data.hasExtra("la.droid.qr.result")) {
+                    String res = data.getExtras().getString("la.droid.qr.result");
+
+
+                    // Passing to the main activity as a search query
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    intent.putExtra("sQuery", res);
+                    startActivity(intent);
+
+                }
+            } else if (resultCode == RESULT_CANCELED) {
+                // Capture cancelled
+            } else {
+                // Capture failed
+            }
+        }
+
     }
 
 
