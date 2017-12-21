@@ -33,7 +33,11 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class MainActivity extends Activity {
+
+
+    final static int CAPTURE_QRCODE = 888;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,8 +109,6 @@ public class MainActivity extends Activity {
             public boolean onMenuItemActionCollapse(MenuItem item) {
 
                 // Gotta find our fragment activity in order to call our method.
-                ListingFragment ls = (ListingFragment) getFragmentManager()
-                        .findFragmentById(R.id.fragment1);
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
                 return true;
@@ -176,6 +178,21 @@ public class MainActivity extends Activity {
                 });
                 d.show();
                 return true;
+            case R.id.option2:   // QR Code
+
+                Intent intent = new Intent("la.droid.qr.scan");
+                intent.putExtra("la.droid.qr.complete", true);
+                try {
+                    startActivityForResult(intent, CAPTURE_QRCODE);
+
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=la.droid.qr.priva")));
+                }
+
+
+
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -184,5 +201,28 @@ public class MainActivity extends Activity {
 
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CAPTURE_QRCODE) {
+            if (resultCode == RESULT_OK) {
+                if (data.hasExtra("la.droid.qr.result")) {
+                    String res = data.getExtras().getString("la.droid.qr.result");
+
+
+                    // Passing to the main activity as a search query
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    intent.putExtra("sQuery", res);
+                    startActivity(intent);
+
+                }
+            } else if (resultCode == RESULT_CANCELED) {
+                // Capture cancelled
+            } else {
+                // Capture failed
+            }
+        }
+
+    }
 
 }
